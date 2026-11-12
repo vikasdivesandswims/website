@@ -331,7 +331,10 @@ body.named .head-bar { opacity: 1; }
 /* while the quote holds centre stage, this layer darkens light → marine */
 .manifesto-shade {
   position: absolute;
-  inset: 0;
+  /* reaches below the section: on phones the visible screen is taller than
+     100svh (when the browser bar slides away), and the strip under the
+     section would otherwise show the page colour mid-fade */
+  inset: 0 0 -100vh 0;
   background: var(--marine);
   opacity: 0;
   pointer-events: none;
