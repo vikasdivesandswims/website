@@ -51,6 +51,13 @@
   }
   function scrollYFor(target) {
     if (target === "top") { return 0; }
+    /* contact is the end of the page: go all the way down, so the footer is
+       fully in view on every screen */
+    if (target.id === "contact") {
+      var maxY = lenis && typeof lenis.limit === "number" ? lenis.limit
+        : Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      return Math.max(0, Math.round(maxY));
+    }
     var headH = (document.querySelector(".site-head") || { offsetHeight: 0 }).offsetHeight;
     var top = target.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop);
     var cs = getComputedStyle(target);
