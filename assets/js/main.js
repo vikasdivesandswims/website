@@ -88,9 +88,9 @@
       paused: true,
       onUpdate: function () { chapter(dark.progress() > 0.5 ? "marine" : "mist"); }
     });
-    dark.to(".manifesto-shade", { opacity: 1, ease: "power1.inOut", duration: 1.3 }, 0)
-        .to(".manifesto-text", { color: "#eef5ef", ease: "power1.inOut", duration: 0.7 }, 0.45)
-        .to(".manifesto-text em", { color: "#9ff0be", ease: "power1.inOut", duration: 0.7 }, 0.45);
+    dark.to(".manifesto-shade", { opacity: 1, ease: "power1.inOut", duration: 0.45 }, 0)
+        .to(".manifesto-text", { color: "#eef5ef", ease: "power1.inOut", duration: 0.3 }, 0.15)
+        .to(".manifesto-text em", { color: "#9ff0be", ease: "power1.inOut", duration: 0.3 }, 0.15);
     var isDark = false;
     function setDark(on, fast) {
       dark.timeScale(fast ? 3 : 1);
@@ -102,16 +102,16 @@
        the pin before it finishes, it finishes quickly where it stands (the
        shade reaches below the section, so no strip or edge shows) rather
        than jumping colour in a single frame. */
+    /* the pin holds the quote; the colour change starts as soon as the quote
+       is well into the screen, and runs fast on its own timer */
+    ScrollTrigger.create({ trigger: mani, start: "top top", end: "+=110%", pin: true });
     ScrollTrigger.create({
       trigger: mani,
-      start: "top top",
+      start: "top 70%",
       end: "+=110%",
-      pin: true,
-      onUpdate: function (self) { if (self.isActive) { setDark(self.progress > 0.14, false); } },
-      onLeave: function () { setDark(true, true); },
+      onEnter: function () { setDark(true, false); },
       onEnterBack: function () { setDark(true, true); },
-      onLeaveBack: function () { setDark(false, true); },
-      onEnter: function () { setDark(false, true); }
+      onLeaveBack: function () { setDark(false, true); }
     });
   }
 
