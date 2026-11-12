@@ -736,10 +736,10 @@ body { text-transform: lowercase; }
    so their hover colour is the one that comes out right over each
    chapter's background: mint #9ff0be on dark chapters, the deeper
    --neon #0fae55 on the light (mist) chapter (difference(bg, --hov)) */
-body[data-chapter="mist"]     { --hov: #e04897; }   /* comes out as --neon */
-body[data-chapter="marine"]   { --hov: #c3ffff; }
-body[data-chapter="midnight"] { --hov: #aefff8; }
-body[data-chapter="abyss"]    { --hov: #a9ffe6; }
+body[data-head="mist"]     { --hov: #e04897; }   /* comes out as --neon */
+body[data-head="marine"]   { --hov: #c3ffff; }
+body[data-head="midnight"] { --hov: #aefff8; }
+body[data-head="abyss"]    { --hov: #a9ffe6; }
 .site-nav a, .hero-word a, .contact-links a { transition: color .25s ease; }
 .site-nav a:hover, .site-nav a:focus-visible,
 .hero-word a:hover, .hero-word a:focus-visible { color: var(--hov, var(--mint)); }

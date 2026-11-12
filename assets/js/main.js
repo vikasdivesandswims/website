@@ -293,7 +293,7 @@
   /* ════ 2. EVERYTHING ELSE ═══════════════ */
 
   /* ── chapter colour ────────────────────── */
-  function chapter(name) { body.setAttribute("data-chapter", name); }
+  function chapter(name) { body.setAttribute("data-chapter", name); if (window.__headTone) { window.__headTone(); } }
 
   [
     { sel: ".hero",      name: "mist"     },
@@ -638,6 +638,59 @@
   window.addEventListener("pageshow", function (e) {
     if (e.persisted) { moved = false; toTop(); ScrollTrigger.refresh(); }
   });
+  /* The header and name are drawn by difference-blending against whatever
+     is behind them, so their hover colour has to match what is actually
+     under the header line, not the section that is mostly on screen. This
+     reads that from the section positions on every scroll. */
+  (function () {
+    var secs = {
+      hero: document.querySelector(".hero"), mani: document.querySelector(".manifesto"),
+      roles: document.querySelector(".roles"), story: document.querySelector(".story"),
+      practice: document.querySelector(".practice"), gallery: document.querySelector(".gallery"),
+      contact: document.querySelector(".contact")
+    };
+    var head = document.querySelector(".site-head");
+    var cur = "";
+    var seam = { story: 0, contact: 0 };
+    function measure() {
+      ["story", "contact"].forEach(function (k) {
+        var el = secs[k]; if (!el) { return; }
+        var v = getComputedStyle(el).getPropertyValue("--seam").trim();
+        if (!v) { seam[k] = 0; return; }
+        var probe = document.createElement("div");
+        probe.style.cssText = "position:absolute;visibility:hidden;height:" + v;
+        el.appendChild(probe); seam[k] = probe.offsetHeight; el.removeChild(probe);
+      });
+    }
+    function tone() {
+      var y = head ? head.offsetHeight / 2 : 20, t = "mist";
+      var order = ["hero", "mani", "roles", "story", "practice", "gallery", "contact"];
+      for (var i = 0; i < order.length; i++) {
+        var el = secs[order[i]]; if (!el) { continue; }
+        var r = el.getBoundingClientRect();
+        if (r.top <= y && r.bottom > y) {
+          var k = order[i], into = y - r.top;
+          if (k === "hero") { t = "mist"; }
+          else if (k === "mani") { t = body.getAttribute("data-chapter") === "marine" ? "marine" : "mist"; }
+          else if (k === "roles") { t = "marine"; }
+          else if (k === "story") { t = into < seam.story * 0.6 ? "marine" : "midnight"; }
+          else if (k === "practice") { t = "midnight"; }
+          else if (k === "gallery") { t = "abyss"; }
+          else if (k === "contact") { t = into < seam.contact * 0.62 ? "abyss" : "mist"; }
+          break;
+        }
+      }
+      if (t !== cur) { cur = t; body.setAttribute("data-head", t); }
+    }
+    body.setAttribute("data-head", "mist");
+    window.addEventListener("scroll", tone, { passive: true });
+    if (lenis) { lenis.on("scroll", tone); }
+    ScrollTrigger.addEventListener("refresh", function () { measure(); tone(); });
+    window.addEventListener("resize", function () { measure(); tone(); });
+    measure();
+    window.__headTone = tone;
+  })();
+
   /* a tapped link gives up focus at once, so it never stays highlighted */
   document.addEventListener("click", function (e) {
     var l = e.target.closest && e.target.closest(".site-nav a, .hero-word a, .contact-links a");
