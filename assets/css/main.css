@@ -819,4 +819,30 @@ a { -webkit-tap-highlight-color: transparent; }
 .story     { background: linear-gradient(to bottom, var(--marine) 0, var(--midnight) clamp(8rem, 22vh, 14rem)) no-repeat, var(--midnight); }
 .practice  { background: var(--midnight); }
 .gallery   { background: linear-gradient(to bottom, var(--midnight) 0, var(--abyss) clamp(8rem, 22vh, 14rem)) no-repeat, var(--abyss); }
-.contact   { background: linear-gradient(to bottom, var(--abyss) 0, var(--surface) clamp(9rem, 26vh, 16rem)) no-repeat, var(--surface); }
+
+/* contact: a soft wave seam that scrolls past on its own, then solid light
+   under the text. The seam is its own zone above the content, so no text
+   ever sits on the gradient. */
+.contact {
+  --seam: clamp(15rem, 46svh, 30rem);
+  position: relative;
+  background: var(--surface);
+  padding-top: calc(var(--seam) + clamp(1rem, 4svh, 3rem));
+  min-height: 120svh;
+}
+.contact::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: var(--seam);
+  pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 160' preserveAspectRatio='none'%3E%3Cpath d='M0 90 C150 40 300 40 450 80 S750 140 900 90 S1100 40 1200 70 V160 H0Z' fill='%23eff6ec'/%3E%3C/svg%3E") bottom / 100% 55% no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 160' preserveAspectRatio='none'%3E%3Cpath d='M0 60 C200 110 380 120 560 80 S900 30 1200 90 V160 H0Z' fill='%23eff6ec' fill-opacity='.55'/%3E%3C/svg%3E") bottom / 100% 75% no-repeat,
+    linear-gradient(to bottom, var(--abyss) 0, #1d3350 38%, #6d8199 68%, #c5d1cf 88%, var(--surface) 100%);
+}
+.contact-title { font-size: clamp(3.6rem, 15vw, 13rem); }
+@media (max-width: 640px) {
+  .contact { padding: calc(var(--seam) + 1rem) var(--gutter) 1.5rem; min-height: 110svh; }
+  .contact-title { font-size: 29vw; }
+}
