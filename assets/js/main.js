@@ -103,7 +103,7 @@
       end: function () { return phone() ? "+=60%" : "+=110%"; },
       pin: true,
       onUpdate: function (self) {
-        var cap = Math.min(1, self.progress / 0.12);
+        var cap = Math.min(1, self.progress / 0.04);
         if (self.progress > 0.01) {
           if (dark.progress() > cap) { dark.pause().progress(cap); }
           else if (dark.progress() < cap && !dark.isActive()) { dark.timeScale(1).play(); }
