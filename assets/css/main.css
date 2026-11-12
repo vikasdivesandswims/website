@@ -895,3 +895,8 @@ a { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 640px) {
   .contact { padding-bottom: calc(1.75rem + env(safe-area-inset-bottom, 0px)); }
 }
+
+/* sections that share a colour overlap by a pixel, so no hairline shows
+   between them when the screen scales or rounds */
+.manifesto { margin-bottom: -1px; }
+.roles { padding-top: 1px; }
