@@ -142,6 +142,15 @@ a:focus-visible {
   background-color: var(--surface);
 }
 body.named .head-bar { opacity: 1; }
+/* content clip: once you scroll, everything in <main> is cut along the
+   header line, so content never shows through or behind the header.
+   The name sits outside <main>, so it is not clipped. The bar and this
+   clip share one edge. */
+main {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.35s cubic-bezier(.4,0,.2,1);
+}
+body.scrolled main { clip-path: inset(var(--head-h) 0 0 0); }
 body[data-chapter="mist"]     .head-bar { background-color: var(--surface); }
 body[data-chapter="marine"]   .head-bar { background-color: var(--marine); }
 body[data-chapter="midnight"] .head-bar { background-color: var(--midnight); }
