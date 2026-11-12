@@ -322,7 +322,7 @@ body.named .head-bar { opacity: 1; }
 /* ── manifesto ──────────────────────────── */
 .manifesto {
   position: relative;
-  min-height: 100svh;
+  min-height: 100vh;   /* the large viewport: covers the screen even after the phone's address bar slides away */
   display: grid;
   place-items: center;
   padding: clamp(4rem, 10vh, 8rem) var(--gutter);
