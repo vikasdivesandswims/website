@@ -576,7 +576,11 @@
   ScrollTrigger.sort();
   /* first paint: the page starts already in its chapter colour, with no
      fade in from white. The colour transition switches on after that. */
+  /* a reload always starts at the top: no browser scroll restore */
+  if ("scrollRestoration" in history) { history.scrollRestoration = "manual"; }
+  window.scrollTo(0, 0);
   function settle() {
+    window.scrollTo(0, 0);
     ScrollTrigger.refresh();
     requestAnimationFrame(function () { requestAnimationFrame(function () { body.classList.remove("booting"); }); });
   }
