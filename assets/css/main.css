@@ -902,3 +902,24 @@ a { -webkit-tap-highlight-color: transparent; }
 .roles { padding-top: 1px; }
 
 .contact-body { max-width: 34rem; text-wrap: pretty; line-height: 1.45; }
+
+/* footer: one quiet voice. Same face, colour and visual size for the name,
+   the year and the credit; lighter than the body ink. */
+.site-foot {
+  font-family: var(--grot);
+  font-weight: 460;
+  font-stretch: 95%;
+  font-size: 0.84rem;
+  letter-spacing: 0.01em;
+  color: color-mix(in srgb, var(--ink) 58%, var(--surface));
+  align-items: baseline;
+}
+.site-foot .foot-name {
+  font-size: 0.8rem;       /* capitals read larger than lowercase, so a touch smaller */
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-right: 0.12em;
+  color: inherit;
+}
+.site-foot p, .site-foot .foot-credit { color: inherit; font: inherit; }
+.site-foot .foot-name { font-family: var(--grot); font-style: italic; font-weight: 600; font-stretch: 84%; font-size: 0.8rem; }
