@@ -923,3 +923,13 @@ a { -webkit-tap-highlight-color: transparent; }
 }
 .site-foot p, .site-foot .foot-credit { color: inherit; font: inherit; }
 .site-foot .foot-name { font-family: var(--grot); font-style: italic; font-weight: 600; font-stretch: 84%; font-size: 0.8rem; }
+
+/* footer credit and year share one style: the same face, size and capitals */
+.site-foot, .site-foot .foot-credit {
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-stretch: 95%;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.site-foot .foot-name { font-size: 0.78rem; letter-spacing: 0.06em; }
