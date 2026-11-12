@@ -900,3 +900,5 @@ a { -webkit-tap-highlight-color: transparent; }
    between them when the screen scales or rounds */
 .manifesto { margin-bottom: -1px; }
 .roles { padding-top: 1px; }
+
+.contact-body { max-width: 34rem; text-wrap: pretty; line-height: 1.45; }
