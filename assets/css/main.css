@@ -61,6 +61,7 @@ body { overflow-x: clip; max-width: 100%; }
 html.lenis { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto; }
 
+body.booting, body.booting * { transition: none !important; }
 body {
   font-family: var(--serif);
   font-weight: 380;
@@ -127,34 +128,24 @@ a:focus-visible {
 }
 .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
 
-/* header bar: a solid, straight-edged band in the same colour as the
-   page for the current chapter. It only appears once the name has
-   reached the header (body.named), and it changes colour with the page
-   on the same timing, so the page reads as one colour. */
+/* header: frosted glass with no tint. It only appears once the name has
+   reached the header (body.named). The blur fades out at its lower edge
+   with no border, so images dissolve into it rather than being cut off. */
 .head-bar {
   position: fixed;
   inset: 0 0 auto 0;
-  height: var(--head-h);
+  height: calc(var(--head-h) + 2.6rem);
   z-index: 45;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.25s ease, background-color 0.9s cubic-bezier(.4,0,.2,1);
-  background-color: var(--surface);
+  transition: opacity 0.35s ease;
+  background: transparent;
+  -webkit-backdrop-filter: blur(14px);
+          backdrop-filter: blur(14px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 45%, rgba(0,0,0,.5) 72%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0, #000 45%, rgba(0,0,0,.5) 72%, transparent 100%);
 }
 body.named .head-bar { opacity: 1; }
-/* content clip: once you scroll, everything in <main> is cut along the
-   header line, so content never shows through or behind the header.
-   The name sits outside <main>, so it is not clipped. The bar and this
-   clip share one edge. */
-main {
-  clip-path: inset(0 0 0 0);
-  transition: clip-path 0.35s cubic-bezier(.4,0,.2,1);
-}
-body.scrolled main { clip-path: inset(var(--head-h) 0 0 0); }
-body[data-chapter="mist"]     .head-bar { background-color: var(--surface); }
-body[data-chapter="marine"]   .head-bar { background-color: var(--marine); }
-body[data-chapter="midnight"] .head-bar { background-color: var(--midnight); }
-body[data-chapter="abyss"]    .head-bar { background-color: var(--abyss); }
 
 /* ── the name ───────────────────────────── */
 .hero-word {

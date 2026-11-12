@@ -574,7 +574,13 @@
   }
 
   ScrollTrigger.sort();
-  window.addEventListener("load", function () { ScrollTrigger.refresh(); });
+  /* first paint: the page starts already in its chapter colour, with no
+     fade in from white. The colour transition switches on after that. */
+  function settle() {
+    ScrollTrigger.refresh();
+    requestAnimationFrame(function () { requestAnimationFrame(function () { body.classList.remove("booting"); }); });
+  }
+  window.addEventListener("load", settle);
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
   }
