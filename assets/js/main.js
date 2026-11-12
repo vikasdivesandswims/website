@@ -585,6 +585,11 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () { body.classList.remove("booting"); }); });
   }
   window.addEventListener("load", settle);
+  /* a tapped link gives up focus at once, so it never stays highlighted */
+  document.addEventListener("click", function (e) {
+    var l = e.target.closest && e.target.closest(".site-nav a, .hero-word a, .contact-links a");
+    if (l && l.blur) { setTimeout(function () { l.blur(); }, 0); }
+  });
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
   }

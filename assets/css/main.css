@@ -868,3 +868,18 @@ a { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 640px) {
   .story { padding: calc(var(--seam) + 1rem) var(--gutter) 3.5rem; }
 }
+
+/* touch screens have no real hover or lasting focus: a tapped link must
+   spring back to its normal colour, and only show the accent while pressed */
+@media (hover: none) {
+  .site-nav a:hover, .site-nav a:focus, .site-nav a:focus-visible,
+  .hero-word a:hover, .hero-word a:focus, .hero-word a:focus-visible,
+  .contact-links a:hover, .contact-links a:focus, .contact-links a:focus-visible {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+  }
+  .contact-links a:hover .glyph { opacity: inherit; transform: none; }
+  .site-nav a:active, .hero-word a:active { color: var(--hov, var(--mint)); }
+  .contact-links a:active { color: var(--neon); }
+}
