@@ -127,34 +127,34 @@
       gsap.set(f, { opacity: i === 0 ? 1 : 0, visibility: "visible", scale: i === 0 ? 1 : 1.06 });
     });
 
-    var tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".roles",
-        start: "top top",
-        end: function () { return "+=" + frames.length * (phone() ? 34 : 70) + "%"; },
-        pin: ".roles-stage",
-        scrub: phone() ? 0.25 : 0.6,
-        onUpdate: function (self) {
-          var idx = Math.min(frames.length - 1, Math.floor(self.progress * frames.length));
-          var f = frames[idx];
-          if (roleWord && f) {
-            var r = f.getAttribute("data-role");
-            if (roleWord.textContent !== r) { roleWord.textContent = r; }
-          }
+    /* One photo per step of scroll. The change is timed, not scrubbed: when
+       the scroll crosses into the next photo's stretch, the old one leaves
+       and the new one arrives in under half a second, so it can never sit
+       half-way with both photos showing. */
+    var cur = 0;
+    function show(idx) {
+      if (idx === cur) { return; }
+      var dir = idx > cur ? 1 : -1;
+      cur = idx;
+      frames.forEach(function (f, i) {
+        if (i === idx) {
+          gsap.fromTo(f, { scale: dir > 0 ? 1.05 : 0.96 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out", overwrite: true });
+        } else {
+          gsap.to(f, { opacity: 0, scale: i < idx ? 0.96 : 1.05, duration: 0.28, ease: "power1.in", overwrite: true });
         }
+      });
+      var r = frames[idx].getAttribute("data-role");
+      if (roleWord && roleWord.textContent !== r) { roleWord.textContent = r; }
+    }
+    ScrollTrigger.create({
+      trigger: ".roles",
+      start: "top top",
+      end: function () { return "+=" + frames.length * (phone() ? 30 : 60) + "%"; },
+      pin: ".roles-stage",
+      onUpdate: function (self) {
+        show(Math.max(0, Math.min(frames.length - 1, Math.floor(self.progress * frames.length))));
       }
     });
-
-    frames.forEach(function (f, i) {
-      if (i === 0) {
-        tl.to(f, { scale: 1.0, duration: 0.8, ease: "none" }, 0);
-      } else {
-        var at = i - 0.35;
-        tl.to(frames[i - 1], { opacity: 0, scale: 0.96, duration: 0.55, ease: "power1.inOut" }, at);
-        tl.to(f, { opacity: 1, scale: 1, duration: 0.6, ease: "power1.out" }, at + 0.1);
-      }
-    });
-    tl.to({}, { duration: 0.4 });
   } else if (stage) {
     frames.forEach(function (f) {
       f.style.position = "relative";
