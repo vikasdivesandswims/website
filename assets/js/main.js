@@ -91,7 +91,7 @@
       paused: true,
       onUpdate: function () { chapter(dark.progress() > 0.5 ? "marine" : "mist"); }
     });
-    dark.to(".manifesto-shade", { opacity: 1, ease: "power1.inOut", duration: 0.45 }, 0)
+    dark.to(".manifesto-shade", { opacity: 0, ease: "power1.inOut", duration: 0.45 }, 0)
         .to(".manifesto-text", { color: "#eef5ef", ease: "power1.inOut", duration: 0.3 }, 0.15)
         .to(".manifesto-text em", { color: "#9ff0be", ease: "power1.inOut", duration: 0.3 }, 0.15);
     /* The dark never shows while the hero is on screen: the fade only runs
@@ -100,7 +100,7 @@
     ScrollTrigger.create({
       trigger: mani,
       start: "top top",
-      end: function () { return phone() ? "+=60%" : "+=110%"; },
+      end: function () { return phone() ? "+=32%" : "+=75%"; },
       pin: true,
       onUpdate: function (self) {
         var cap = Math.min(1, self.progress / 0.04);
@@ -131,7 +131,7 @@
       scrollTrigger: {
         trigger: ".roles",
         start: "top top",
-        end: function () { return "+=" + frames.length * (phone() ? 40 : 80) + "%"; },
+        end: function () { return "+=" + frames.length * (phone() ? 34 : 70) + "%"; },
         pin: ".roles-stage",
         scrub: phone() ? 0.25 : 0.6,
         onUpdate: function (self) {
@@ -444,14 +444,17 @@
   /* the tagline fades as it scrolls up into the header, and returns on the way down */
   var tag = document.getElementById("heroRoles");
   if (tag && !reduced) {
-    gsap.fromTo(tag, { opacity: 1 }, {
-      opacity: 0, ease: "none", immediateRender: false,
-      scrollTrigger: {
-        trigger: tag,
-        start: function () { return "top " + Math.round(innerHeight * 0.32) + "px"; },
-        end: function () { return "top " + Math.round(document.querySelector(".site-head").offsetHeight + 8) + "px"; },
-        scrub: true, invalidateOnRefresh: true
-      }
+    /* written straight from the scroll position, so it is always right: full
+       opacity at the top, fading as it nears the header, and back to full
+       whenever you return, however fast */
+    ScrollTrigger.create({
+      trigger: tag,
+      start: function () { return "top " + Math.round(innerHeight * 0.32) + "px"; },
+      end: function () { return "top " + Math.round(document.querySelector(".site-head").offsetHeight + 8) + "px"; },
+      invalidateOnRefresh: true,
+      onUpdate: function (self) { tag.style.opacity = String(1 - self.progress); },
+      onLeaveBack: function () { tag.style.opacity = "1"; },
+      onLeave: function () { tag.style.opacity = "0"; }
     });
   }
 
@@ -580,11 +583,20 @@
   /* ── generic reveals ───────────────────── */
   if (!reduced) {
     document.querySelectorAll(".reveal").forEach(function (el) {
+      if (el.closest(".contact")) { return; }
       gsap.to(el, {
         opacity: 1, y: 0, duration: 0.95, ease: "power3.out",
         scrollTrigger: { trigger: el, start: "top 86%" }
       });
     });
+    /* contact: title, line and all three links arrive together, off one trigger */
+    var cItems = gsap.utils.toArray(".contact .reveal");
+    if (cItems.length) {
+      gsap.to(cItems, {
+        opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.05,
+        scrollTrigger: { trigger: ".contact", start: "top 45%" }
+      });
+    }
   } else {
     document.querySelectorAll(".reveal").forEach(function (el) {
       el.style.opacity = 1; el.style.transform = "none";
