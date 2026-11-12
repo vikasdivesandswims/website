@@ -890,8 +890,7 @@ a { -webkit-tap-highlight-color: transparent; }
 }
 
 /* the page ends with the footer on the bottom edge of the screen, with a gap */
-.contact { padding-bottom: calc(1.75rem + env(safe-area-inset-bottom, 0px)); scroll-snap-align: end; }
-@media (hover: none) { html { scroll-snap-type: y proximity; } }
+.contact { padding-bottom: calc(1.75rem + env(safe-area-inset-bottom, 0px)); }
 @media (max-width: 640px) {
   .contact { padding-bottom: calc(1.75rem + env(safe-area-inset-bottom, 0px)); }
 }
@@ -933,3 +932,8 @@ a { -webkit-tap-highlight-color: transparent; }
   text-transform: uppercase;
 }
 .site-foot .foot-name { font-size: 0.78rem; letter-spacing: 0.06em; }
+
+/* the footer is the last thing in the document, so the page can always
+   scroll far enough to show it in full, above the phone's bottom bar */
+.contact { padding-bottom: calc(2.25rem + env(safe-area-inset-bottom, 0px)); }
+.site-foot { padding-bottom: 0; }
