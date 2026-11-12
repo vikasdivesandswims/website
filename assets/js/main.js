@@ -97,13 +97,24 @@
       isDark = on;
       if (on) { dark.play(); } else { dark.reverse(); }
     }
+    /* outside the pin the section is never mid-fade: it sits at its end
+       state, matching its neighbours, so no half-faded block ever slides
+       past with an edge. The fade only ever plays while the quote is held. */
+    function snap(on) {
+      isDark = on;
+      dark.pause().progress(on ? 1 : 0);
+      chapter(on ? "marine" : "mist");
+    }
     ScrollTrigger.create({
       trigger: mani,
       start: "top top",
       end: "+=110%",
       pin: true,
-      onUpdate: function (self) { setDark(self.progress > 0.14); },
-      onLeaveBack: function () { setDark(false); }
+      onUpdate: function (self) { if (self.isActive) { setDark(self.progress > 0.14); } },
+      onLeave: function () { snap(true); },
+      onEnterBack: function () { snap(true); setDark(true); },
+      onLeaveBack: function () { snap(false); },
+      onEnter: function () { snap(false); }
     });
   }
 
