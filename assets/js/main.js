@@ -615,6 +615,22 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () { body.classList.remove("booting"); }); });
   }
   window.addEventListener("load", settle);
+  /* browsers (mobile Chrome in particular) can restore the old scroll
+     position after load, and on back/forward from cache. Until the person
+     actually touches or scrolls, keep putting the page back at the top. */
+  var moved = false;
+  ["touchstart", "wheel", "keydown", "mousedown"].forEach(function (t) {
+    window.addEventListener(t, function () { moved = true; }, { passive: true, once: true });
+  });
+  function toTop() {
+    if (moved) { return; }
+    if (lenis) { lenis.scrollTo(0, { immediate: true, force: true }); }
+    window.scrollTo(0, 0);
+  }
+  [0, 120, 400, 900, 1800].forEach(function (ms) { setTimeout(toTop, ms); });
+  window.addEventListener("pageshow", function (e) {
+    if (e.persisted) { moved = false; toTop(); ScrollTrigger.refresh(); }
+  });
   /* a tapped link gives up focus at once, so it never stays highlighted */
   document.addEventListener("click", function (e) {
     var l = e.target.closest && e.target.closest(".site-nav a, .hero-word a, .contact-links a");
