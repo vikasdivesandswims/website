@@ -15,6 +15,9 @@
   gsap.registerPlugin(ScrollTrigger);
 
   /* ── smooth scroll ─────────────────────── */
+  /* phones get shorter pins and a tighter scrub: a normal finger stroke
+     should always move the scene, never sit in a dead stretch */
+  function phone() { return window.innerWidth <= 640; }
   var lenis = null;
   if (!reduced) {
     lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 1 });
@@ -97,7 +100,7 @@
     ScrollTrigger.create({
       trigger: mani,
       start: "top top",
-      end: "+=110%",
+      end: function () { return phone() ? "+=60%" : "+=110%"; },
       pin: true,
       onUpdate: function (self) {
         var cap = Math.min(1, self.progress / 0.12);
@@ -128,9 +131,9 @@
       scrollTrigger: {
         trigger: ".roles",
         start: "top top",
-        end: "+=" + frames.length * 80 + "%",
+        end: function () { return "+=" + frames.length * (phone() ? 40 : 80) + "%"; },
         pin: ".roles-stage",
-        scrub: 0.6,
+        scrub: phone() ? 0.25 : 0.6,
         onUpdate: function (self) {
           var idx = Math.min(frames.length - 1, Math.floor(self.progress * frames.length));
           var f = frames[idx];
@@ -270,9 +273,9 @@
     ScrollTrigger.create({
       trigger: ".gallery",
       start: "top top",
-      end: function () { return "+=" + Math.round(figs.length * innerHeight * 0.32); },   /* one full turn, then the page moves on */
+      end: function () { return "+=" + Math.round(figs.length * innerHeight * (phone() ? 0.19 : 0.32)); },   /* one full turn, then the page moves on */
       pin: ".gallery-pin",
-      scrub: 0.6,
+      scrub: phone() ? 0.25 : 0.6,
       invalidateOnRefresh: true,
       onUpdate: function (self) { layoutWave(self.progress); },
       onRefresh: function (self) { measureWave(); layoutWave(self.progress); }
