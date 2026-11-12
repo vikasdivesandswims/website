@@ -91,27 +91,26 @@
     dark.to(".manifesto-shade", { opacity: 1, ease: "power1.inOut", duration: 0.45 }, 0)
         .to(".manifesto-text", { color: "#eef5ef", ease: "power1.inOut", duration: 0.3 }, 0.15)
         .to(".manifesto-text em", { color: "#9ff0be", ease: "power1.inOut", duration: 0.3 }, 0.15);
-    var isDark = false;
-    function setDark(on, fast) {
-      dark.timeScale(fast ? 3 : 1);
-      if (on === isDark) { return; }
-      isDark = on;
-      if (on) { dark.play(); } else { dark.reverse(); }
-    }
-    /* The fade is timed and plays while the quote is held. If you leave
-       the pin before it finishes, it finishes quickly where it stands (the
-       shade reaches below the section, so no strip or edge shows) rather
-       than jumping colour in a single frame. */
-    /* the pin holds the quote; the colour change starts as soon as the quote
-       is well into the screen, and runs fast on its own timer */
-    ScrollTrigger.create({ trigger: mani, start: "top top", end: "+=110%", pin: true });
+    /* The dark never shows while the hero is on screen: the fade only runs
+       once the quote is pinned, and it is capped by the scroll position, so
+       scrolling back up drains it to pale before the pin releases. */
     ScrollTrigger.create({
       trigger: mani,
-      start: "top 70%",
+      start: "top top",
       end: "+=110%",
-      onEnter: function () { setDark(true, false); },
-      onEnterBack: function () { setDark(true, true); },
-      onLeaveBack: function () { setDark(false, true); }
+      pin: true,
+      onUpdate: function (self) {
+        var cap = Math.min(1, self.progress / 0.12);
+        if (self.progress > 0.01) {
+          if (dark.progress() > cap) { dark.pause().progress(cap); }
+          else if (dark.progress() < cap && !dark.isActive()) { dark.timeScale(1).play(); }
+        } else {
+          dark.pause().progress(0);
+        }
+      },
+      onLeaveBack: function () { dark.pause().progress(0); },
+      onEnterBack: function () { dark.pause().progress(1); },
+      onLeave: function () { dark.timeScale(3).play(); }
     });
   }
 
