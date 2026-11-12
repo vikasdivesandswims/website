@@ -92,29 +92,26 @@
         .to(".manifesto-text", { color: "#eef5ef", ease: "power1.inOut", duration: 0.7 }, 0.45)
         .to(".manifesto-text em", { color: "#9ff0be", ease: "power1.inOut", duration: 0.7 }, 0.45);
     var isDark = false;
-    function setDark(on) {
+    function setDark(on, fast) {
+      dark.timeScale(fast ? 3 : 1);
       if (on === isDark) { return; }
       isDark = on;
       if (on) { dark.play(); } else { dark.reverse(); }
     }
-    /* outside the pin the section is never mid-fade: it sits at its end
-       state, matching its neighbours, so no half-faded block ever slides
-       past with an edge. The fade only ever plays while the quote is held. */
-    function snap(on) {
-      isDark = on;
-      dark.pause().progress(on ? 1 : 0);
-      chapter(on ? "marine" : "mist");
-    }
+    /* The fade is timed and plays while the quote is held. If you leave
+       the pin before it finishes, it finishes quickly where it stands (the
+       shade reaches below the section, so no strip or edge shows) rather
+       than jumping colour in a single frame. */
     ScrollTrigger.create({
       trigger: mani,
       start: "top top",
       end: "+=110%",
       pin: true,
-      onUpdate: function (self) { if (self.isActive) { setDark(self.progress > 0.14); } },
-      onLeave: function () { snap(true); },
-      onEnterBack: function () { snap(true); setDark(true); },
-      onLeaveBack: function () { snap(false); },
-      onEnter: function () { snap(false); }
+      onUpdate: function (self) { if (self.isActive) { setDark(self.progress > 0.14, false); } },
+      onLeave: function () { setDark(true, true); },
+      onEnterBack: function () { setDark(true, true); },
+      onLeaveBack: function () { setDark(false, true); },
+      onEnter: function () { setDark(false, true); }
     });
   }
 
