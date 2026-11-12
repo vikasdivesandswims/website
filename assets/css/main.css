@@ -334,13 +334,17 @@ body.named .head-bar { opacity: 1; }
   /* reaches below the section: on phones the visible screen is taller than
      100svh (when the browser bar slides away), and the strip under the
      section would otherwise show the page colour mid-fade */
-  inset: 0 0 -100vh 0;
+  inset: -12rem 0 -100vh 0;
+  z-index: 3;   /* above the hero's lower fog, so its soft top edge blends into it */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12rem);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 12rem);
   background: var(--marine);
   opacity: 0;
   pointer-events: none;
 }
 .manifesto-text {
   position: relative;
+  z-index: 4;
   max-width: 72rem;
   margin: 0 auto;
   font-size: clamp(2.5rem, 6.4vw, 6.4rem);
