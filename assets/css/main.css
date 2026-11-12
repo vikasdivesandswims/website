@@ -127,28 +127,25 @@ a:focus-visible {
 }
 .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
 
-/* frosted veil under the header: fades in once you scroll,
-   takes the colour of the current chapter, and dissolves at its
-   lower edge so there is never a line */
-.head-veil {
+/* header bar: a solid, straight-edged band in the same colour as the
+   page for the current chapter. It only appears once the name has
+   reached the header (body.named), and it changes colour with the page
+   on the same timing, so the page reads as one colour. */
+.head-bar {
   position: fixed;
   inset: 0 0 auto 0;
-  height: calc(var(--head-h) + 2.6rem);
+  height: var(--head-h);
   z-index: 45;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.6s cubic-bezier(.4,0,.2,1), background-color 0.9s cubic-bezier(.4,0,.2,1);
-  background: var(--veil, rgba(239, 246, 236, 0.5));
-  -webkit-backdrop-filter: blur(14px) saturate(1.15);
-          backdrop-filter: blur(14px) saturate(1.15);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 52%, rgba(0,0,0,.45) 76%, transparent 100%);
-          mask-image: linear-gradient(to bottom, #000 0, #000 52%, rgba(0,0,0,.45) 76%, transparent 100%);
+  transition: opacity 0.25s ease, background-color 0.9s cubic-bezier(.4,0,.2,1);
+  background-color: var(--surface);
 }
-body.scrolled .head-veil { opacity: 1; }
-body[data-chapter="mist"]     { --veil: rgba(239, 246, 236, 0.45); }
-body[data-chapter="marine"]   { --veil: rgba(36, 67, 107, 0.45); }
-body[data-chapter="midnight"] { --veil: rgba(15, 31, 58, 0.5); }
-body[data-chapter="abyss"]    { --veil: rgba(10, 22, 40, 0.5); }
+body.named .head-bar { opacity: 1; }
+body[data-chapter="mist"]     .head-bar { background-color: var(--surface); }
+body[data-chapter="marine"]   .head-bar { background-color: var(--marine); }
+body[data-chapter="midnight"] .head-bar { background-color: var(--midnight); }
+body[data-chapter="abyss"]    .head-bar { background-color: var(--abyss); }
 
 /* ── the name ───────────────────────────── */
 .hero-word {

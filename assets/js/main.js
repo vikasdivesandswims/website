@@ -384,6 +384,7 @@
     }
     word.classList.toggle("is-small", p > 0.98);
     body.classList.toggle("scrolled", p > 0.12);
+    body.classList.toggle("named", p > 0.98);   // the name is in the header: show the bar
   }
 
   ScrollTrigger.create({
