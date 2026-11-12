@@ -1,0 +1,220 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vikas: swim, dive, move</title>
+<meta name="description" content="Vikas is a diver, aquatic educator and movement coach. Movement, adventure and joy should be accessible to all.">
+<script>document.documentElement.classList.add("js");</script>
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body data-chapter="mist">
+
+<!-- glyph system: 24px grid, 1.6 stroke, round caps and joins, currentColor -->
+<svg class="glyph-defs" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="g-swim" viewBox="0 0 24 24">
+    <circle cx="17.6" cy="7.4" r="1.7"/>
+    <path d="M3.5 12.2c2.2-2.6 4.9-3.9 7.8-3.2l2.2 2.3 3.6-.5"/>
+    <path d="M3 16.4c1.5-1.1 3-1.1 4.5 0s3 1.1 4.5 0 3-1.1 4.5 0 3 1.1 4.5 0"/>
+    <path d="M6 20.2c1.2-.8 2.4-.8 3.6 0s2.4.8 3.6 0 2.4-.8 3.6 0"/>
+  </symbol>
+  <symbol id="g-dive" viewBox="0 0 24 24">
+    <circle cx="5.2" cy="4.6" r="1.7"/>
+    <path d="M8.2 5.4c4.6.9 7.6 4.1 8.3 9.2"/>
+    <path d="M14.2 12.6l2.3 2.6 2.1-2.8"/>
+    <path d="M3 19.4c1.5-1.1 3-1.1 4.5 0s3 1.1 4.5 0 3-1.1 4.5 0 3 1.1 4.5 0"/>
+  </symbol>
+  <symbol id="g-move" viewBox="0 0 24 24">
+    <circle cx="12" cy="4.4" r="1.7"/>
+    <path d="M6.4 6.8l5.6 3 5.6-3"/>
+    <path d="M12 9.8v4.6"/>
+    <path d="M12 14.4l-4.2 6.1"/>
+    <path d="M12 14.4l3.4 2.6-.6 3.5"/>
+  </symbol>
+  <symbol id="g-whatsapp" viewBox="0 0 24 24">
+    <path d="M12 3.6a8.4 8.4 0 0 0-7.3 12.6l-1.2 4.2 4.3-1.1A8.4 8.4 0 1 0 12 3.6z"/>
+    <path d="M9.3 8.4c.4-.4.9-.3 1.1.2l.6 1.4c.1.3 0 .6-.2.8l-.5.5c.5 1.1 1.4 2 2.6 2.6l.5-.5c.2-.2.5-.3.8-.2l1.4.6c.5.2.6.7.2 1.1-.6.6-1.5.9-2.4.6-2-.7-3.7-2.4-4.4-4.4-.3-.9 0-1.8.3-2.7z"/>
+  </symbol>
+  <symbol id="g-instagram" viewBox="0 0 24 24">
+    <rect x="3.6" y="3.6" width="16.8" height="16.8" rx="5"/>
+    <circle cx="12" cy="12" r="3.9"/>
+    <circle cx="16.9" cy="7.1" r=".5"/>
+  </symbol>
+  <symbol id="g-email" viewBox="0 0 24 24">
+    <rect x="3.2" y="5.6" width="17.6" height="12.8" rx="2.6"/>
+    <path d="M4.2 7.4l7.8 5.6 7.8-5.6"/>
+  </symbol>
+  <symbol id="g-scroll" viewBox="0 0 24 24">
+    <path d="M12 3.5v16"/>
+    <path d="M6.8 14.3l5.2 5.2 5.2-5.2"/>
+  </symbol>
+</svg>
+
+<div class="head-veil" aria-hidden="true"></div>
+<header class="site-head">
+  <nav class="site-nav" aria-label="Sections">
+    <a href="#story" data-scroll="story" aria-label="about me">about<span class="nav-more"> me</span></a>
+    <a href="#practice" data-scroll="practice">practice</a>
+    <a href="#contact" data-scroll="contact">contact</a>
+  </nav>
+</header>
+
+<!-- The name: big in the hero, shrinks into the centre of the header on scroll -->
+<h1 class="hero-word" id="heroWord">
+  <a href="#top" data-scroll="top" aria-label="Vikas, back to the top">
+    <span class="hw"><span class="hw-i">V</span></span><span class="hw"><span class="hw-i">I</span></span><span class="hw"><span class="hw-i">K</span></span><span class="hw"><span class="hw-i">A</span></span><span class="hw"><span class="hw-i">S</span></span>
+  </a>
+</h1>
+
+<p class="hero-roles" id="heroRoles">aquatic, physical and outdoor educator</p>
+
+<main id="top">
+
+  <!-- ░░ HERO ░░ -->
+  <section class="hero" id="hero">
+    <div class="hero-media">
+      <div class="hero-photo">
+        <picture>
+          <source media="(max-width: 900px) and (orientation: portrait)" type="image/webp"
+                  srcset="assets/img/hero-slackline-m-1000.webp 1000w, assets/img/hero-slackline-m-1500.webp 1500w" sizes="89vh">
+          <source media="(max-width: 900px) and (orientation: portrait)"
+                  srcset="assets/img/hero-slackline-m-1000.jpg 1000w, assets/img/hero-slackline-m-1500.jpg 1500w" sizes="89vh">
+          <source type="image/webp"
+                  srcset="assets/img/hero-slackline-2400.webp 2400w, assets/img/hero-slackline-3800.webp 3800w" sizes="max(198vh, 100vw)">
+          <img src="assets/img/hero-slackline.jpg"
+               srcset="assets/img/hero-slackline-2400.jpg 2400w, assets/img/hero-slackline.jpg 3800w" sizes="max(198vh, 100vw)"
+               alt="vikas sitting on a slackline high above the forest canopy, mist behind him" fetchpriority="high">
+        </picture>
+      </div>
+      <img class="fg fg-trees" src="assets/img/fg-trees.webp" alt="" aria-hidden="true">
+      <canvas class="drops" id="drops" aria-hidden="true"></canvas>
+      <img class="fg fg-near fg-near-l" src="assets/img/fg-leaves-l.webp" alt="" aria-hidden="true">
+      <img class="fg fg-near fg-near-r" src="assets/img/fg-leaves-r.webp" alt="" aria-hidden="true">
+    </div>
+    <div class="hero-type">
+      <div class="hero-word-space" aria-hidden="true"></div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true"><span>scroll</span><svg class="glyph"><use href="#g-scroll"/></svg></div>
+  </section>
+
+  <!-- ░░ MANIFESTO ░░ -->
+  <section class="manifesto">
+    <div class="manifesto-shade" aria-hidden="true"></div>
+    <p class="manifesto-text reveal">i believe <em>movement, adventure and joy</em> should be accessible to all.</p>
+  </section>
+
+  <!-- ░░ ROLES · pinned ░░ -->
+  <section class="roles" id="roles" aria-label="What Vikas is">
+    <ul class="sr-only">
+      <li>diver</li><li>swimmer</li><li>aquatic educator</li><li>physical trainer</li><li>adventure guide</li>
+    </ul>
+    <div class="roles-stage">
+      <figure class="role-frame" data-role="diver">
+        <img loading="lazy" style="--rpos:30% 40%" src="assets/img/dive-swan.jpg" srcset="assets/img/dive-swan-1000.jpg 1000w, assets/img/dive-swan.jpg 1400w" sizes="(max-width: 900px) 75vw, 60vw" alt="a swan dive from the ten-metre platform, arms wide over the trees">
+      </figure>
+      <figure class="role-frame" data-role="swimmer">
+        <img loading="lazy" style="--rpos:46% 50%" src="assets/img/water-glide.jpg" srcset="assets/img/water-glide-1000.jpg 1000w, assets/img/water-glide.jpg 2000w" sizes="(max-width: 900px) 75vw, 60vw" alt="swimming underwater, seen from above">
+      </figure>
+      <figure class="role-frame" data-role="aquatic educator">
+        <img loading="lazy" style="--rpos:50% 55%" src="assets/img/swim-class.jpg" srcset="assets/img/swim-class-1000.jpg 1000w, assets/img/swim-class.jpg 2000w" sizes="(max-width: 900px) 75vw, 60vw" alt="a row of students on the pool's edge mid-lesson">
+      </figure>
+      <figure class="role-frame" data-role="physical trainer">
+        <img loading="lazy" style="--rpos:56% 50%" src="assets/img/move-planche.jpg" srcset="assets/img/move-planche-1000.jpg 1000w, assets/img/move-planche.jpg 1800w" sizes="(max-width: 900px) 75vw, 60vw" alt="a straight-body planche on a laterite pillar in the forest">
+      </figure>
+      <figure class="role-frame" data-role="adventure guide">
+        <img loading="lazy" style="--rpos:50% 30%" src="assets/img/guide-hat.jpg" alt="me in the forest in a sun hat, with a hydration pack over one shoulder">
+      </figure>
+      <p class="role-word" id="roleWord" aria-hidden="true">diver</p>
+    </div>
+  </section>
+
+  <!-- ░░ STORY ░░ -->
+  <section class="story" id="story">
+    <div class="story-grid">
+      <h2 class="chapter-title reveal"><span class="ct-big">about</span> <span class="ct-big">me</span></h2>
+      <figure class="story-portrait reveal">
+        <img loading="lazy" src="assets/img/portrait-float.jpg" alt="me floating on my back in dark water, arms spread wide, seen from above">
+        <figcaption>me, at work.</figcaption>
+      </figure>
+      <div class="story-body">
+        <p class="reveal">i grew up immersed in forests and water. as a teenager i was a competitive diver and a national medallist. now i train young people to be their best, in the water and out of it.</p>
+        <p class="reveal">everything i teach comes back to one idea: moving well in everyday life. water is where i begin, with keeping safe, rescuing others, playing and exploring underwater. from there we build strength, conditioning and a deeper sense of the body.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ PRACTICE ░░ -->
+  <section class="practice" id="practice">
+    <h2 class="practice-head reveal">my practice</h2>
+
+    <article class="offer">
+      <figure class="offer-img reveal"><img loading="lazy" src="assets/img/swim-group.jpg" srcset="assets/img/swim-group-1000.jpg 1000w, assets/img/swim-group.jpg 1200w" sizes="(max-width: 900px) 80vw, 45vw" alt="me in the pool with a group of swimmers, mid-lesson"></figure>
+      <div class="offer-text">
+        <h3 class="offer-title reveal"><svg class="glyph" aria-hidden="true"><use href="#g-swim"/></svg><span>swim</span></h3>
+        <p class="offer-body reveal">from first float to confident freestyle. i correct strokes and train them one by one, build comfort in deep water, and open the door to open-water swimming and water survival. groups or one-on-one, for kids and every age after.</p>
+      </div>
+    </article>
+
+    <article class="offer offer--flip">
+      <figure class="offer-img reveal"><img loading="lazy" src="assets/img/dive-flight.jpg" srcset="assets/img/dive-flight-1000.jpg 1000w, assets/img/dive-flight.jpg 1800w" sizes="(max-width: 900px) 80vw, 45vw" alt="a diver in full flight, arms swept back"></figure>
+      <div class="offer-text">
+        <h3 class="offer-title reveal"><svg class="glyph" aria-hidden="true"><use href="#g-dive"/></svg><span>dive</span></h3>
+        <p class="offer-body reveal">overcome the fear of jumping, work through the mental blocks, and free your body through movement. i train divers from first jump to competition and personal bests, on springboard, platform, cliff diving, water sports and more. and i'm always up for an adventure.</p>
+      </div>
+    </article>
+
+    <article class="offer">
+      <figure class="offer-img reveal"><img loading="lazy" src="assets/img/move-club.jpg" srcset="assets/img/move-club-1000.jpg 1000w, assets/img/move-club.jpg 1600w" sizes="(max-width: 900px) 80vw, 45vw" alt="training with a traditional wooden club"></figure>
+      <div class="offer-text">
+        <h3 class="offer-title reveal"><svg class="glyph" aria-hidden="true"><use href="#g-move"/></svg><span>move</span></h3>
+        <p class="offer-body reveal">lift, jump, pull, throw, hit, and take a leap. i help you understand how your body moves and how you eat, so you build fundamentals strong enough for anything. i teach strength and conditioning, somatic work, calisthenics and balance. beginners start with bodyweight basics; pro athletes train at high intensity. every age is welcome.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ░░ GALLERY ░░ -->
+  <!-- each frame sets its own shape (--ar) and crop (--pos) so the subject sits centred -->
+  <section class="gallery" id="gallery">
+    <div class="gallery-pin">
+      <p class="gallery-label">from the field</p>
+      <div class="gallery-track" id="galleryTrack">
+        <figure style="--ar:3/5;--pos:100% 50%"><img loading="lazy" src="assets/img/tower-climb.jpg" srcset="assets/img/tower-climb-1000.jpg 1000w, assets/img/tower-climb.jpg 1800w" sizes="(max-width: 900px) 60vw, 45vw" alt="climbing the tower at dusk"></figure>
+        <figure style="--ar:3/4;--pos:50% 100%"><img loading="lazy" src="assets/img/gal-handstand.jpg" srcset="assets/img/gal-handstand-1000.jpg 1000w, assets/img/gal-handstand.jpg 1600w" sizes="(max-width: 900px) 60vw, 45vw" alt="handstand on the pool deck"></figure>
+        <figure style="--ar:2/3;--pos:50% 50%"><img loading="lazy" src="assets/img/swim-rope.jpg" srcset="assets/img/swim-rope-1000.jpg 1000w, assets/img/swim-rope.jpg 1600w" sizes="(max-width: 900px) 60vw, 45vw" alt="hanging from the rope line across the pool"></figure>
+        <figure style="--ar:3/4;--pos:50% 100%"><img loading="lazy" src="assets/img/gal-spread.jpg" srcset="assets/img/gal-spread-1000.jpg 1000w, assets/img/gal-spread.jpg 1600w" sizes="(max-width: 900px) 60vw, 45vw" alt="arms spread wide mid-fall"></figure>
+        <figure style="--ar:4/3;--pos:100% 50%"><img loading="lazy" src="assets/img/move-balance.jpg" srcset="assets/img/move-balance-1000.jpg 1000w, assets/img/move-balance.jpg 1800w" sizes="(max-width: 900px) 60vw, 45vw" alt="balancing on one leg between the trees"></figure>
+        <figure style="--ar:16/10;--pos:50% 100%"><img loading="lazy" src="assets/img/water-night.jpg" srcset="assets/img/water-night-1000.jpg 1000w, assets/img/water-night.jpg 2000w" sizes="(max-width: 900px) 60vw, 45vw" alt="floating in near-black water at night"></figure>
+        <figure style="--ar:2/3;--pos:50% 50%"><img loading="lazy" src="assets/img/gal-two.jpg" srcset="assets/img/gal-two-1000.jpg 1000w, assets/img/gal-two.jpg 1600w" sizes="(max-width: 900px) 60vw, 45vw" alt="two divers on the platform"></figure>
+        <figure style="--ar:3/4;--pos:50% 90%"><img loading="lazy" src="assets/img/move-tree.jpg" srcset="assets/img/move-tree-1000.jpg 1000w, assets/img/move-tree.jpg 1600w" sizes="(max-width: 900px) 60vw, 45vw" alt="tree pose on a laterite block"></figure>
+        <figure style="--ar:2/3;--pos:50% 50%"><img loading="lazy" src="assets/img/gal-drop.jpg" srcset="assets/img/gal-drop-1000.jpg 1000w, assets/img/gal-drop.jpg 1600w" sizes="(max-width: 900px) 60vw, 45vw" alt="the drop, seen from below"></figure>
+        <figure style="--ar:1/1;--pos:35% 50%"><img loading="lazy" src="assets/img/water-drift.jpg" srcset="assets/img/water-drift-1000.jpg 1000w, assets/img/water-drift.jpg 1800w" sizes="(max-width: 900px) 60vw, 45vw" alt="drifting in pale blue water"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ CONTACT ░░ -->
+  <section class="contact" id="contact">
+    <h2 class="contact-title reveal">say hello.</h2>
+    <p class="contact-body reveal">i teach year-round, by appointment.</p>
+    <ul class="contact-links">
+      <li class="reveal"><a href="https://wa.me/918073203077" target="_blank" rel="noopener"><svg class="glyph" aria-hidden="true"><use href="#g-whatsapp"/></svg><span>whatsapp</span></a></li>
+      <li class="reveal"><a href="https://www.instagram.com/_vipaschit_/" target="_blank" rel="noopener"><svg class="glyph" aria-hidden="true"><use href="#g-instagram"/></svg><span>instagram</span></a></li>
+      <li class="reveal"><a href="mailto:vikasdivesandswims@gmail.com?subject=Hello%20Vikas!"><svg class="glyph" aria-hidden="true"><use href="#g-email"/></svg><span>email</span></a></li>
+    </ul>
+    <footer class="site-foot">
+      <p><span class="foot-name">VIKAS</span> 2026</p>
+      <p class="foot-credit">photographs by dkesh</p>
+    </footer>
+  </section>
+
+</main>
+
+<script src="assets/js/lenis.min.js"></script>
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/ScrollTrigger.min.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
+
+</body></html>

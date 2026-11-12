@@ -1,0 +1,805 @@
+/* ─────────────────────────────────────────────
+   VIKAS — swim, dive, move
+   palette: Mint Marine
+   pale mint → marine → midnight → pale mint
+   type: Anybody (condensed italic black) × Newsreader
+   ───────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Anybody";
+  src: url("../fonts/anybody-var.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-stretch: 50% 150%;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Anybody";
+  src: url("../fonts/anybody-italic-var.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-stretch: 50% 150%;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Newsreader Var";
+  src: url("../fonts/newsreader-latin-opsz-normal.woff2") format("woff2-variations");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Newsreader Var";
+  src: url("../fonts/newsreader-latin-opsz-italic.woff2") format("woff2-variations");
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --surface: #eff6ec;   /* pale mint */
+  --neon: #0fae55;      /* deeper neon green: mint's hover colour on light backgrounds */
+  --marine: #24436b;    /* base */
+  --midnight: #0f1f3a;  /* deep */
+  --abyss: #0a1628;     /* deeper */
+  --ink: #14233c;       /* text on light */
+  --bone: #eef5ef;      /* text on dark */
+  --mint: #9ff0be;      /* accent — dark backgrounds only */
+  --grot: "Anybody", sans-serif;
+  --serif: "Newsreader Var", Georgia, serif;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+
+  /* hero name geometry (shared by the fixed name and its spacer) */
+  --hw-size: clamp(5.4rem, 24.5vw, 24rem);
+  --hw-top: clamp(3.6rem, 7vh, 5.5rem);
+  --head-h: 3.4rem;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: clip; }
+body { overflow-x: clip; max-width: 100%; }
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+
+body {
+  font-family: var(--serif);
+  font-weight: 380;
+  color: var(--ink);
+  background-color: var(--surface);
+  transition: background-color 0.9s cubic-bezier(.4,0,.2,1), color 0.9s cubic-bezier(.4,0,.2,1);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body[data-chapter="mist"]     { background-color: var(--surface);  color: var(--ink); }
+body[data-chapter="marine"]   { background-color: var(--marine);   color: var(--bone); }
+body[data-chapter="midnight"] { background-color: var(--midnight); color: var(--bone); }
+body[data-chapter="abyss"]    { background-color: var(--abyss);    color: var(--bone); }
+
+/* display type: Anybody condensed italic black */
+.display {
+  font-family: var(--grot);
+  font-style: italic;
+  font-weight: 900;
+  font-stretch: 56%;
+  letter-spacing: 0.005em;
+}
+
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+a { color: inherit; }
+a:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+}
+::selection { background: var(--mint); color: var(--midnight); }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── header ─────────────────────────────── */
+/* no name here — the hero name flies into the centre on scroll */
+.site-head {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: var(--head-h);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 var(--gutter);
+  mix-blend-mode: difference;
+  color: #eef5ef;
+  pointer-events: none;
+}
+.site-nav { display: flex; gap: clamp(1rem, 3vw, 2.5rem); pointer-events: auto; }
+.site-nav a {
+  font-family: var(--grot);
+  font-weight: 500;
+  font-stretch: 95%;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* frosted veil under the header: fades in once you scroll,
+   takes the colour of the current chapter, and dissolves at its
+   lower edge so there is never a line */
+.head-veil {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: calc(var(--head-h) + 2.6rem);
+  z-index: 45;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(.4,0,.2,1), background-color 0.9s cubic-bezier(.4,0,.2,1);
+  background: var(--veil, rgba(239, 246, 236, 0.5));
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+          backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 52%, rgba(0,0,0,.45) 76%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0, #000 52%, rgba(0,0,0,.45) 76%, transparent 100%);
+}
+body.scrolled .head-veil { opacity: 1; }
+body[data-chapter="mist"]     { --veil: rgba(239, 246, 236, 0.45); }
+body[data-chapter="marine"]   { --veil: rgba(36, 67, 107, 0.45); }
+body[data-chapter="midnight"] { --veil: rgba(15, 31, 58, 0.5); }
+body[data-chapter="abyss"]    { --veil: rgba(10, 22, 40, 0.5); }
+
+/* ── the name ───────────────────────────── */
+.hero-word {
+  font-family: var(--grot);
+  font-style: italic;
+  font-weight: 900;
+  font-stretch: 52%;
+  font-size: var(--hw-size);
+  line-height: 0.84;
+  user-select: none;
+  color: var(--ink);
+  /* no-JS: sits in the hero like a normal heading */
+  position: absolute;
+  top: var(--hw-top);
+  left: var(--gutter);
+  right: var(--gutter);
+  z-index: 55;
+}
+.hero-word { pointer-events: none; }       /* the box is huge and invisible: only the letters take clicks */
+/* the big letters' glyphs reach up into the header, so they only take
+   clicks once the name has shrunk into the header (is-small) */
+.hero-word.is-small .hw { pointer-events: auto; cursor: pointer; }
+.hero-word a {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+.hero-word a:focus-visible { outline-offset: 0.05em; }
+.hero-word .hw { display: inline-flex; justify-content: center; transform-origin: 50% 50%; will-change: transform; }
+.hero-word .hw-i { display: inline-block; }
+/* JS: fixed, and blended like the nav so it reads on light and dark */
+.js .hero-word {
+  position: fixed;
+  color: #edfaff;
+  mix-blend-mode: difference;
+}
+
+/* ── hero ───────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 108svh;
+  z-index: 2;
+  /* where Vikas's head sits, below the name and the roles line */
+  --head-y: max(30svh, calc(var(--hw-top) + var(--hw-size) * 0.84 + 5.5rem));
+  /* image height: enough to keep the whole figure in frame, and always wider than the screen */
+  --img-h: max(172svh, 87.1vw);
+}
+/* The fade lives on a box that never moves, so moving layers inside
+   only ever meet a soft edge — no hard crop on scroll. */
+.hero-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* one long eased fade (no corners, so no visible lines) */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 60%, rgba(0,0,0,.97) 66%, rgba(0,0,0,.9) 71%, rgba(0,0,0,.78) 76%, rgba(0,0,0,.62) 81%, rgba(0,0,0,.44) 86%, rgba(0,0,0,.27) 90%, rgba(0,0,0,.13) 94%, rgba(0,0,0,.04) 97.5%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0, #000 60%, rgba(0,0,0,.97) 66%, rgba(0,0,0,.9) 71%, rgba(0,0,0,.78) 76%, rgba(0,0,0,.62) 81%, rgba(0,0,0,.44) 86%, rgba(0,0,0,.27) 90%, rgba(0,0,0,.13) 94%, rgba(0,0,0,.04) 97.5%, transparent 100%);
+}
+/* the last stretch of mist takes on the page's own pale mint, so the photo
+   dissolves into the page colour rather than greying out into it */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 34%;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(239,246,236,0) 0, rgba(239,246,236,.06) 20%, rgba(239,246,236,.2) 40%, rgba(239,246,236,.42) 60%, rgba(239,246,236,.68) 78%, rgba(239,246,236,.88) 90%, rgba(239,246,236,1) 100%);
+}
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.hero-photo img {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--head-y) - var(--img-h) * 0.439);
+  height: var(--img-h);
+  width: auto;
+  min-width: 100%;          /* never narrower than the hero, whatever the viewport units say */
+  max-width: none;
+  transform: translateX(-50%);
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+/* foreground parallax layers (alpha baked into the assets) */
+.fg { position: absolute; pointer-events: none; max-width: none; will-change: transform; }
+.fg-trees {
+  left: -2%;
+  width: 104%;
+  height: auto;
+  max-height: 72%;
+  object-fit: cover;
+  object-position: 50% 100%;
+  bottom: -8%;   /* the canopy's rounded underside (baked into the image) sits in the mist */
+  /* soft top whatever the crop, so its edge never shows */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 38%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 38%);
+  z-index: 2;
+}
+.drops {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+.fg-near { z-index: 5; height: auto; opacity: 0.96; }
+/* near leaves live inside the faded media box too, so they
+   never smudge the plain background below the hero */
+.fg-near-l {
+  left: -8vw;
+  bottom: -3%;
+  width: clamp(16rem, 34vw, 40rem);
+}
+.fg-near-r {
+  right: -7vw;
+  bottom: -12%;
+  width: clamp(16rem, 36vw, 42rem);
+}
+
+.hero-type {
+  position: relative;
+  z-index: 6;
+  padding: var(--hw-top) var(--gutter) 0;
+  width: 100%;
+}
+.hero-word-space { height: calc(var(--hw-size) * 0.84); }
+.hero-roles {
+  /* sits under the big name and scrolls away with the hero (not into the header) */
+  position: absolute;
+  top: calc(var(--hw-top) + var(--hw-size) * 0.84 + 1.1rem);
+  left: var(--gutter);
+  z-index: 55;
+  margin: 0;
+  font-family: var(--serif);
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(1rem, 1.35vw, 1.25rem);
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  white-space: normal;
+  max-width: calc(100% - var(--gutter) * 2);
+  color: var(--ink);
+  pointer-events: none;
+}
+
+/* keep the hero's own layout: reserve the tagline's line */
+.hero-word-space { margin-bottom: calc(1.1rem + 1.7rem); }
+.scroll-cue {
+  position: absolute;
+  right: var(--gutter);
+  bottom: calc(8svh + 1.2rem);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--grot);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  z-index: 6;
+}
+.scroll-cue .glyph {
+  width: 1.5rem; height: 1.5rem;
+  animation: cue 2.2s ease-in-out infinite;
+}
+@keyframes cue { 0%,100% { transform: translateY(-3px); opacity: .55; } 50% { transform: translateY(5px); opacity: 1; } }
+
+/* ── manifesto ──────────────────────────── */
+.manifesto {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: clamp(4rem, 10vh, 8rem) var(--gutter);
+  text-align: center;
+}
+/* while the quote holds centre stage, this layer darkens light → marine */
+.manifesto-shade {
+  position: absolute;
+  inset: 0;
+  background: var(--marine);
+  opacity: 0;
+  pointer-events: none;
+}
+.manifesto-text {
+  position: relative;
+  max-width: 72rem;
+  margin: 0 auto;
+  font-size: clamp(2.5rem, 6.4vw, 6.4rem);
+  font-weight: 300;
+  font-variation-settings: "opsz" 72;   /* Newsreader's display cut: finer hairlines, fuller italics */
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.manifesto-text em { font-weight: 300; letter-spacing: -0.005em; }
+.manifesto-text em { font-style: italic; color: var(--marine); }
+body[data-chapter="marine"] .manifesto-text em,
+body[data-chapter="midnight"] .manifesto-text em,
+body[data-chapter="abyss"] .manifesto-text em { color: var(--mint); }
+
+/* ── roles · pinned ─────────────────────── */
+.roles { position: relative; }
+.roles-stage {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+/* each photo shown whole, at its own proportions — no cropping */
+.role-frame {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+}
+.role-frame img {
+  width: auto;
+  height: auto;
+  max-width: min(88vw, 72rem);
+  max-height: 74svh;
+  object-fit: contain;
+}
+.role-frame:first-child { opacity: 1; visibility: visible; }
+.role-word {
+  position: absolute;
+  right: var(--gutter);
+  bottom: 5vh;
+  text-align: right;
+  font-family: var(--grot);
+  font-style: italic;
+  font-weight: 900;
+  font-stretch: 52%;
+  font-size: clamp(3.4rem, 11vw, 10.5rem);
+  line-height: 0.9;
+  color: var(--mint);
+  z-index: 3;
+  max-width: 90vw;
+}
+
+/* ── story ──────────────────────────────── */
+.story { padding: clamp(6rem, 14vh, 11rem) var(--gutter); }
+.story-grid {
+  max-width: 76rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(1.2rem, 2.5vh, 2rem) clamp(2.5rem, 6vw, 6rem);
+  align-items: start;
+}
+.chapter-title {
+  grid-column: 1 / -1;
+  font-family: var(--grot);
+  font-style: italic;
+  font-weight: 900;
+  font-stretch: 54%;
+  font-size: clamp(3.4rem, 10vw, 8.5rem);
+  line-height: 0.9;
+  margin-bottom: 0;
+}
+.story-portrait img { aspect-ratio: 3/4; }
+.story-portrait figcaption {
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  opacity: 0.75;
+  margin-top: 0.8rem;
+}
+.story-body { padding-top: clamp(0.5rem, 3vh, 2.5rem); }
+.story-body p {
+  font-size: clamp(1.15rem, 1.45vw, 1.4rem);
+  line-height: 1.78;
+  letter-spacing: 0.005em;
+  max-width: 30em;
+}
+.story-body p + p { margin-top: 1.9em; }
+
+/* ── practice ───────────────────────────── */
+.practice { padding: clamp(5rem, 12vh, 10rem) var(--gutter) clamp(4rem, 10vh, 8rem); }
+.practice-head {
+  font-family: var(--grot);
+  font-style: italic;
+  font-weight: 900;
+  font-stretch: 54%;
+  font-size: clamp(3.4rem, 10vw, 8.5rem);
+  line-height: 0.9;
+  max-width: 76rem;
+  margin: 0 auto clamp(2.5rem, 7vh, 5rem);
+}
+.offer {
+  max-width: 76rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+  padding: clamp(2.2rem, 6vh, 4.5rem) 0;
+}
+.offer--flip .offer-img { order: 2; }
+.offer-img { overflow: hidden; }
+.offer-img img { aspect-ratio: 4/5; }
+.offer--flip .offer-img img { aspect-ratio: 2/3; }
+.offer-title {
+  font-family: var(--grot);
+  font-style: italic;
+  font-weight: 900;
+  font-stretch: 56%;
+  font-size: clamp(2.8rem, 6.5vw, 5.8rem);
+  line-height: 0.95;
+  margin-bottom: 1rem;
+}
+.offer-body {
+  font-size: clamp(1.08rem, 1.35vw, 1.3rem);
+  line-height: 1.75;
+  letter-spacing: 0.005em;
+  max-width: 28em;
+}
+
+/* ── gallery ────────────────────────────── */
+.gallery { position: relative; }
+.gallery-pin {
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.gallery-label {
+  font-family: var(--grot);
+  font-weight: 560;
+  font-stretch: 95%;
+  font-size: 0.85rem;
+  padding: 0 var(--gutter);
+  margin-bottom: 1.4rem;
+}
+.gallery-track {
+  display: flex;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+  padding: 0 var(--gutter);
+  width: max-content;
+  will-change: transform;
+}
+.gallery-track figure {
+  flex: 0 0 auto;
+  height: min(62vh, 34rem);
+  overflow: hidden;
+}
+.gallery-track figure:nth-child(odd)  { aspect-ratio: 2/3; }
+.gallery-track figure:nth-child(even) { aspect-ratio: 3/4; height: min(52vh, 28rem); align-self: flex-end; }
+.gallery-track figure:nth-child(6),
+.gallery-track figure:nth-child(10)   { aspect-ratio: 3/2; }
+
+/* ── contact ────────────────────────────── */
+.contact {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(6rem, 14vh, 10rem) var(--gutter) 2rem;
+}
+.contact-title {
+  font-family: var(--grot);
+  font-style: italic;
+  font-weight: 900;
+  font-stretch: 52%;
+  font-size: clamp(3.2rem, 10.5vw, 10rem);
+  line-height: 0.9;
+  white-space: nowrap;
+  margin-bottom: clamp(1.2rem, 3vh, 2rem);
+}
+.contact-body {
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  font-style: italic;
+  margin-bottom: clamp(2.5rem, 7vh, 4rem);
+}
+.contact-links { list-style: none; max-width: 56rem; }
+.contact-links li {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.1rem 0;
+}
+.contact-links a {
+  font-family: var(--grot);
+  font-style: italic;
+  font-weight: 900;
+  font-stretch: 60%;
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  line-height: 1;
+  text-decoration: none;
+}
+.contact-links a:hover { color: var(--neon); }
+.contact-links span {
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+}
+.site-foot {
+  margin-top: auto;
+  padding-top: clamp(3rem, 8vh, 5rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 2.5rem;
+  /* small caps, set in the body serif */
+  font-family: var(--serif);
+  font-weight: 450;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.site-foot .foot-credit { margin-left: auto; }
+/* the name keeps its capitals in the footer, set in the name's own face */
+.site-foot .foot-name {
+  text-transform: none;
+  font-family: var(--grot);
+  font-style: italic;
+  font-weight: 640;
+  font-stretch: 84%;
+  letter-spacing: 0.03em;
+  margin-right: 0.3em;
+}
+
+/* ── reveals ────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(2.2rem); }
+html:not(.js) .reveal, .reduced .reveal { opacity: 1; transform: none; }
+
+/* ── responsive ─────────────────────────── */
+@media (max-width: 900px) {
+  .scroll-cue { display: none; }
+  .story-grid { grid-template-columns: 1fr; }
+  .offer, .offer--flip { grid-template-columns: 1fr; }
+  .offer--flip .offer-img { order: 0; }
+  .offer-img img { aspect-ratio: 4/5; }
+  .gallery-pin { height: auto; padding: 4rem 0; }
+  .gallery-track {
+    width: auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  .gallery-track figure { scroll-snap-align: center; height: 56vh; }
+  .role-word { font-size: clamp(2.6rem, 13vw, 5rem); bottom: 4vh; right: var(--gutter); }
+  .site-nav a { font-size: 0.78rem; }
+}
+/* portrait phones and tablets: a shorter hero and a bigger Vikas,
+   so the screen is the photograph rather than mist below his feet */
+@media (max-width: 900px) and (orientation: portrait) {
+  .hero {
+    min-height: 86svh;
+    --img-h: max(196svh, 87.1vw);
+    --head-y: max(27svh, calc(var(--hw-top) + var(--hw-size) * 0.84 + 5rem));
+  }
+  .fg-near-l { bottom: 4%; width: 64vw; left: -22vw; }
+  .fg-near-r { bottom: 2%; width: 60vw; right: -22vw; }
+}
+/* narrow: split the nav so the centred name has room */
+@media (max-width: 640px) {
+  .site-head { justify-content: stretch; }
+  .site-nav { width: 100%; }
+  .site-nav a:nth-child(2) { margin-right: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue .glyph { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+
+/* ── type system: all lowercase; weight steps down with each level ──
+   h1  name            900  (the only capitals on the site)
+   h2  section titles  780
+   h3  offer titles    620
+   role words          520  (a caption to a photo, not a heading)
+   links / labels      serif or light grot                           */
+body { text-transform: lowercase; }
+.hero-word { text-transform: none; }
+
+.chapter-title, .practice-head, .contact-title {
+  font-weight: 780;
+  font-stretch: 58%;
+  font-size: clamp(3rem, 8vw, 7rem);
+  letter-spacing: -0.005em;
+}
+.offer-title {
+  font-weight: 620;
+  font-stretch: 62%;
+  font-size: clamp(2.1rem, 4.4vw, 3.8rem);
+}
+.role-word {
+  font-weight: 520;
+  font-stretch: 70%;
+  font-size: clamp(3.4rem, 11vw, 10.5rem);   /* big enough to overlap the photo */
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+}
+.contact-links a {
+  font-weight: 560;
+  font-stretch: 66%;
+  font-size: clamp(1.9rem, 4.6vw, 3.8rem);
+}
+.gallery-label {
+  font-family: var(--grot);
+  font-style: italic;
+  font-weight: 780;
+  font-stretch: 58%;
+  font-size: clamp(3rem, 8vw, 7rem);
+  line-height: 0.9;
+  margin-bottom: clamp(0.4rem, 1.5vh, 1rem);
+}
+@media (max-width: 900px) {
+  .role-word { font-size: clamp(2.6rem, 13vw, 5rem); }
+}
+
+/* ── gallery wave ── */
+.gallery-track.is-wave {
+  position: relative;
+  width: 100%;
+  /* just tall enough for the enlarged centre frame and the swell, so the
+     title sits close above the photos */
+  height: calc(min(46vh, 26rem) * 1.3);
+  padding: 0;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+.gallery-track.is-wave figure {
+  position: absolute;
+  left: 50%; top: 50%;
+  height: min(46vh, 26rem) !important;
+  align-self: auto;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.gallery-track.is-wave figure { backface-visibility: hidden; transform-origin: 50% 50%; }
+@media (max-width: 900px) {
+  .gallery-pin { height: 100svh; padding: 0; }
+  .gallery-track.is-wave { overflow: visible; scroll-snap-type: none; }
+  .gallery-track.is-wave figure { height: min(38vh, 18rem, 54vw) !important; }
+  .gallery-track.is-wave { height: calc(min(38vh, 18rem, 54vw) * 1.3); }
+}
+
+/* ── gallery crops: each frame has its own shape and focal point ── */
+.gallery-track figure[style*="--ar"] { aspect-ratio: var(--ar) !important; }
+.gallery-track figure img { object-position: var(--pos, 50% 50%); }
+
+/* ── glyphs ─────────────────────────────────
+   one family: 24px grid, 1.6 stroke, round caps and joins,
+   drawn in currentColor so they take each chapter's colour */
+.glyph-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.glyph {
+  display: inline-block;
+  flex: none;
+  width: 1em; height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
+}
+.offer-title { display: flex; align-items: center; gap: 0.32em; }
+.offer-title .glyph {
+  width: 0.62em; height: 0.62em;
+  color: var(--mint);
+  opacity: 0.8;
+  transform: translateY(0.04em);
+}
+.contact-links a { display: inline-flex; align-items: center; gap: 0.36em; }
+.contact-links a > span { font-size: inherit; font-style: inherit; }
+.contact-links .glyph {
+  width: 0.56em; height: 0.56em;
+  opacity: 0.6;
+  transition: opacity .3s ease, transform .3s ease;
+}
+.contact-links a:hover .glyph { opacity: 1; transform: translateY(-2px); }
+
+/* ── hover: every clickable link turns mint ──
+   the header and the name are drawn with mix-blend-mode: difference,
+   so their hover colour is the one that comes out right over each
+   chapter's background: mint #9ff0be on dark chapters, the deeper
+   --neon #0fae55 on the light (mist) chapter (difference(bg, --hov)) */
+body[data-chapter="mist"]     { --hov: #e04897; }   /* comes out as --neon */
+body[data-chapter="marine"]   { --hov: #c3ffff; }
+body[data-chapter="midnight"] { --hov: #aefff8; }
+body[data-chapter="abyss"]    { --hov: #a9ffe6; }
+.site-nav a, .hero-word a, .contact-links a { transition: color .25s ease; }
+.site-nav a:hover, .site-nav a:focus-visible,
+.hero-word a:hover, .hero-word a:focus-visible { color: var(--hov, var(--mint)); }
+.contact-links a:focus-visible { color: var(--neon); }
+
+/* ── phones and small tablets ──────────────────────────────
+   readability, steady framing, and a header/footer that balance */
+.nav-more { display: inline; }
+a { -webkit-tap-highlight-color: transparent; }
+.site-nav a:active, .hero-word a:active { color: var(--hov, var(--mint)); }
+.contact-links a:active { color: var(--neon); }
+
+@media (max-width: 900px) {
+  /* role deck: every photo shares one height; the label sits at one fixed
+     spot and overlaps the top of each photo. Portraits show whole; wide
+     shots are cropped only at their empty edges (focal point per image),
+     never through a person. */
+  .roles-stage { --rh: min(38svh, calc(88vw * 0.72)); --rt: calc(50% - var(--rh) / 2 + 5svh); }
+  .role-frame {
+    left: 0; right: 0; top: var(--rt);
+    width: fit-content;
+    margin: 0 auto;
+  }
+  .role-frame img {
+    height: var(--rh);
+    width: auto;
+    max-width: 88vw;
+    max-height: none;
+    object-fit: cover;
+    object-position: var(--rpos, 50% 50%);
+  }
+  .role-word {
+    left: var(--gutter); right: auto; bottom: auto;
+    top: calc(var(--rt) - 0.74em);   /* letters sit on the top edge; only their feet and descenders cross it */
+    text-align: left;
+    font-size: clamp(2.6rem, 12.5vw, 4.6rem);
+    max-width: none;
+    white-space: nowrap;
+    text-shadow: 0 2px 22px rgba(10, 22, 40, 0.45);
+  }
+}
+
+@media (max-width: 640px) {
+  /* header: name docks left, the three links sit together on the right */
+  .site-head { justify-content: flex-end; }
+  .site-nav { width: auto; gap: 1.15rem; }
+  .site-nav a:nth-child(2) { margin-right: 0; }
+  .site-nav a { font-size: 0.9rem; padding: 0.75rem 0; }   /* larger tap targets */
+  .nav-more { display: none; }
+
+  /* footer: the same quiet label voice as the header, on one baseline */
+  .site-foot {
+    align-items: baseline;
+    flex-wrap: nowrap;
+    font-family: var(--grot);
+    font-weight: 500;
+    font-stretch: 95%;
+    font-size: 0.9rem;
+    letter-spacing: 0;
+    padding-top: 1.1rem;
+    border-top: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  }
+  .contact { min-height: 92svh; padding-bottom: 1.4rem; }
+  .contact-links li { padding: 0.8rem 0; }
+}
+
