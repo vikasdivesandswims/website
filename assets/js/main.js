@@ -81,22 +81,30 @@
   /* ── manifesto: the quote holds centre while light turns to dark ── */
   var mani = document.querySelector(".manifesto");
   if (mani && !reduced) {
-    var mtl = gsap.timeline({
-      scrollTrigger: {
-        trigger: mani,
-        start: "top top",
-        end: "+=110%",
-        pin: true,
-        scrub: 0.4,
-        onUpdate: function (self) { chapter(self.progress > 0.55 ? "marine" : "mist"); },
-        onLeaveBack: function () { chapter("mist"); }
-      }
+    /* the colour change is timed, not scrubbed: once the quote has been
+       held for a beat, it plays to the end on its own (and back again if
+       you scroll up past that point), whatever the scroll speed */
+    var dark = gsap.timeline({
+      paused: true,
+      onUpdate: function () { chapter(dark.progress() > 0.5 ? "marine" : "mist"); }
     });
-    mtl.to({}, { duration: 0.2 })                                     // a beat in the light first
-       .to(".manifesto-shade", { opacity: 1, ease: "none", duration: 1 }, 0.2)
-       .to(".manifesto-text", { color: "#eef5ef", ease: "power1.inOut", duration: 0.45 }, 0.62)
-       .to(".manifesto-text em", { color: "#9ff0be", ease: "power1.inOut", duration: 0.45 }, 0.62)
-       .to({}, { duration: 0.35 });                                   // and a beat in the dark
+    dark.to(".manifesto-shade", { opacity: 1, ease: "power1.inOut", duration: 1.3 }, 0)
+        .to(".manifesto-text", { color: "#eef5ef", ease: "power1.inOut", duration: 0.7 }, 0.45)
+        .to(".manifesto-text em", { color: "#9ff0be", ease: "power1.inOut", duration: 0.7 }, 0.45);
+    var isDark = false;
+    function setDark(on) {
+      if (on === isDark) { return; }
+      isDark = on;
+      if (on) { dark.play(); } else { dark.reverse(); }
+    }
+    ScrollTrigger.create({
+      trigger: mani,
+      start: "top top",
+      end: "+=110%",
+      pin: true,
+      onUpdate: function (self) { setDark(self.progress > 0.14); },
+      onLeaveBack: function () { setDark(false); }
+    });
   }
 
   /* ── roles: pinned sequence ────────────── */
